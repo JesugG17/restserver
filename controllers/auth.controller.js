@@ -10,7 +10,6 @@ const login = async(req = request, res = response) => {
 
     try {
 
-
         // Verificar si el email existe
         const userDB = await user.findOne({ correo });
 
@@ -56,11 +55,6 @@ const login = async(req = request, res = response) => {
     }
 
 }
-
-
-
-
-
 
 module.exports = {
     login

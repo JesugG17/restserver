@@ -5,7 +5,6 @@ const generarJWT = ( uid = '' ) => {
     
     return new Promise( (resolve, reject) => {
         
-
         const payload = { uid };
 
         jwt.sign( payload, process.env.MYSECRETKEY, {
@@ -21,14 +20,9 @@ const generarJWT = ( uid = '' ) => {
 
         });
 
-
-
-
     });
 
 }
-
-
 
 module.exports = {
     generarJWT

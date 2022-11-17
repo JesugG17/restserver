@@ -7,6 +7,8 @@ const { esRoleValido,
         idExiste } = require('../helpers/db-validators');
 
 const { validarCampos } = require('../middlewares/validar-campos');
+const { esAdminRole, tieneRol } = require('../middlewares/validar-roles');
+const { validarJWT } = require('../middlewares/validar-jsonwebtoken');
 
 const { userGet, 
         userPut, 
@@ -36,9 +38,12 @@ router.post('/',[
 ], userPost);
 
 router.delete('/:id', [
+        validarJWT,
+        // esAdminRole,
+        tieneRol('ADMIN_ROLE', 'VENTAS_ROLE'),
         check('id', 'El id no es valido').isMongoId(),
         check('id').custom( idExiste ),
-        validarCampos
+        validarCampos,
 ], userDelete);
 
 module.exports = router;

@@ -88,15 +88,16 @@ const userPost = async (req, res) => {
 const userDelete = async(req = request, res = response) => {
 
     const id = req.params.id;
-    
     // Borrar fisicamente
     // No se recomienda porque perderiamos la integridad referencial
     // const user = await User.findByIdAndDelete( id );
 
     // Simplemente cambiando el estado a false y asi manteniendo la integridad referencial
+  
     const user = await User.findByIdAndUpdate( id, { estado: false }, { new: true });
+    const userAuth = req.userAuth;
 
-    res.json( user );
+    res.json( {user, userAuth });
 }
 
 
