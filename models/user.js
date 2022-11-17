@@ -38,8 +38,8 @@ const UserSchema = Schema({
     "this" y la funcion de flecha no nos permite usar dicha palabra
 */
 UserSchema.methods.toJSON = function() {
-    const { __v, password, ...user } = this.toObject();
-    return user;
+    const { __v, password, _id: uid, ...user } = this.toObject();
+    return { uid, ...user };
 }
 
 /*
