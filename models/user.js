@@ -12,14 +12,14 @@ const UserSchema = Schema({
     },
     password: {
         type: String,
-        required: [true, 'El contraaseña es obligatorio'],
+        required: [true, 'LA contraaseña es obligatorio'],
     },
     img: {
         type: String
     },
     role: {
         type: String,
-        required: [true, 'El correo es obligatorio'],
+        required: [true, 'El rol es obligatorio'],
         emun: ['ADMIN_ROLE','USER_ROLE']
     },
     estado: {
