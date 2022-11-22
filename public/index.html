@@ -31,7 +31,8 @@
         function handleCredentialResponse(response) {
            // decodeJwtResponse() is a custom function defined by you
            // to decode the credential response.
-            
+            console.log("Response", response ); 
+
             const body = { id_token: response.credential };
 
             fetch('http://localhost:8080/api/auth/google', {

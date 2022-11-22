@@ -10,7 +10,7 @@ const { esRoleValido,
 // const { validarJWT } = require('../middlewares/validar-jsonwebtoken');
 const { validarCampos, 
         validarJWT, 
-        esAdminRole, 
+        esAdminRole,
         tieneRol } = require('../middlewares');
 
 const { userGet, 
