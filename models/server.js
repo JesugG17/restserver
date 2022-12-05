@@ -7,8 +7,18 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usersPath = '/api/users';
-        this.authPath = '/api/auth';
+
+        this.paths = {
+            auth: '/api/auth',
+            categorias: '/api/categorias',
+            productos: '/api/productos',
+            users:'/api/users',
+        };
+
+        // this.usersPath = '/api/users';
+        // this.authPath = '/api/auth';
+        // this.categoriasPath = '/api/categorias';
+        // this.productosPath = '/api/productos';
         
         // Conectar a base de datos
         this.conectarDB();
@@ -39,8 +49,11 @@ class Server {
     // Metodo para definir las rutas que yo quiero
     routes() {
 
-        this.app.use(this.authPath, require('../routes/auth'));
-        this.app.use(this.usersPath, require('../routes/user'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.users, require('../routes/user'));
+        this.app.use(this.paths.categorias, require('../routes/categoria'));
+        this.app.use(this.paths.productos, require('../routes/producto'));
+
     }
 
     listen() {
