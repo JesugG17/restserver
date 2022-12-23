@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 
 const { validarJWT, validarCampos, esAdminRole } = require('../middlewares');
 
-const { existeIdCategoria, existeCategoria, existeProducto, existeIdProducto } = require('../helpers/db-validators');
+const { existeCategoria, existeProducto, existeIdProducto } = require('../helpers/db-validators');
 
 const { eliminarProducto, 
         obtenerProductos, 
