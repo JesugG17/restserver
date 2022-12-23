@@ -1,5 +1,5 @@
 const { request, response } = require("express");
-const { Collection, isValidObjectId } = require("mongoose");
+const { isValidObjectId } = require("mongoose");
 const { User, Categoria, Producto } = require('../models');
 
 
@@ -15,11 +15,21 @@ const buscarUsuarios = async( termino = '', res = response) => {
     const esMongoId = isValidObjectId(termino);
 
     if (esMongoId) {
-        const usuario = User.findById(termino);
-        res.json({
+        const usuario = await User.findById(termino);
+        return res.json({
             results: ( usuario ) ? [ usuario ] : []
         });
     }
+
+    const regex = new RegExp(termino, 'i');
+
+    const usuarios = await User.find({
+        $or: [{nombre: regex}, {correo: regex}],
+        $and: [{estado: true}]
+    });
+    res.json({
+        results: usuarios
+    });
 
 }
 
@@ -48,10 +58,10 @@ const buscar = async(req = request, res = response) => {
             })
     }
 
-
+    /*
     res.json({
         coleccion, termino
-    });
+    });*/
 }
 
 
