@@ -34,7 +34,7 @@
             console.log("Response", response ); 
             const url = (window.location.hostname.includes('localhost'))
                         ? 'http://localhost:8080/api/auth/google'
-                        : 'https://restserver-curso-g17.herokuapp.com/api/auth/google'
+                        : 'https://restserver-production-11c3.up.railway.app/api/auth/google'
 
             const body = { id_token: response.credential };
 
