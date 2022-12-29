@@ -1,8 +1,8 @@
-const { request, response } = require("../routes/producto");
 const { User, Producto } = require('../models');
 const { subirArchivo } = require("../helpers/subir-archivo");
 const path = require('path');
 const fs = require('fs');
+const { request, response } = require('express');
 
 const cargarArchivo = async(req = request, res = response) => {
   
@@ -62,14 +62,51 @@ const actualizarArchivo = async(req = request, res = response) => {
     } catch (msg) {
         return res.status(400).json({ msg });
     }
-
+    
     await modelo.save();
-
+    
     res.json( modelo );
+}
+
+const mostrarImagen = async(req = request, res = response) => {
+    
+    const { id, coleccion } = req.params;
+    const placeHolder = path.join(__dirname, '../assets/no-image.jpg');
+
+    let modelo;
+
+    switch( coleccion ) {
+        case 'usuarios':            
+            modelo = await User.findById( id );
+            if (!modelo) {
+                return res.sendFile( placeHolder );
+            }
+        break;
+        case 'productos':
+            modelo = await Producto.findById( id );
+            if (!modelo) {
+                return res.sendFile( placeHolder );
+            }
+        break;
+        default: res.status(500).json({
+            msg: 'Esta coleccion no ha sido implementada'
+        });
+    }
+
+    // Limpieza previa
+    if ( modelo.img ) {
+        const pathImagen = path.join(__dirname, '../uploads', coleccion, modelo.img);
+        if ( fs.existsSync(pathImagen) ) {
+            return res.sendFile( pathImagen );
+        }
+    }
+
+    res.sendFile( placeHolder );
 }
 
 
 module.exports = {
     cargarArchivo,
-    actualizarArchivo
+    actualizarArchivo,
+    mostrarImagen
 }
