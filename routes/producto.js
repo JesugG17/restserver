@@ -1,16 +1,20 @@
-const Router = require('express');
+const { Router } = require('express');
 
 const { check } = require('express-validator');
 
-const { validarJWT, validarCampos, esAdminRole } = require('../middlewares');
+const { validarJWT, 
+        validarCampos, 
+        esAdminRole } = require('../middlewares');
 
-const { existeCategoria, existeProducto, existeIdProducto } = require('../helpers/db-validators');
+const { existeCategoria, 
+        existeProducto, 
+        existeIdProducto } = require('../helpers/db-validators');
 
-const { eliminarProducto, 
-        obtenerProductos, 
+const { obtenerProductos, 
         obtenerProducto, 
         crearProducto, 
-        actualizarProducto } = require('../controllers/producto.controller');
+        actualizarProducto, 
+        eliminarProducto } = require ('../controllers/producto.controller');
 
 // TODO: HACER LAS 5 RUTAS
 const router = Router();

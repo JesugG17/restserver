@@ -86,7 +86,7 @@ const borrarCategoria = async(req = request, res = response) => {
     const id = req.params.id;
 
     const categoria = await Categoria.findByIdAndUpdate(id, { estado: false}, {new : true});
-
+    
     res.json( categoria );
 
 }

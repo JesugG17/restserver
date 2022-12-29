@@ -76,7 +76,7 @@ const buscarProductos = async( termino = '', res = response) => {
 
 }
 
-const buscar = async(req = request, res = response) => {
+const buscar = (req = request, res = response) => {
 
     const { coleccion , termino } = req.params;
     
