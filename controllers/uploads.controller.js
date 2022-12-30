@@ -4,6 +4,9 @@ const path = require('path');
 const fs = require('fs');
 const { request, response } = require('express');
 
+const cloudinary = require('cloudinary').v2;
+cloudinary.config( process.env.CLOUDINARY_URL );
+
 const cargarArchivo = async(req = request, res = response) => {
   
     try {
@@ -68,6 +71,49 @@ const actualizarArchivo = async(req = request, res = response) => {
     res.json( modelo );
 }
 
+const actualizarArchivoCloudinary = async(req = request, res = response) => {
+
+    const { id, coleccion } = req.params;
+
+    let modelo;
+
+    switch( coleccion ) {
+        case 'usuarios':            
+            modelo = await User.findById( id );
+            if (!modelo) {
+                return res.status(400).json({
+                    msg: `No existe un usuario con el id '${ id }'`
+                });
+            }
+        break;
+        case 'productos':
+            modelo = await Producto.findById( id );
+            if (!modelo) {
+                return res.status(400).json({
+                    msg: `No existe un producto con el id '${ id }'`
+                });
+            }
+        break;
+        default: res.status(500).json({
+            msg: 'Esta coleccion no ha sido implementada'
+        });
+    }
+
+    // Limpieza previa
+    if ( modelo.img ) {
+       const nombreArr = modelo.img.split('/');
+       const nombre = nombreArr[nombreArr.length - 1];
+       const [ public_id ] = nombre.split('.');
+       cloudinary.uploader.destroy( public_id );
+    }
+
+    const { tempFilePath } = req.files.archivo;
+    const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+    modelo.img = secure_url;
+    
+    res.json( modelo );
+}
+
 const mostrarImagen = async(req = request, res = response) => {
     
     const { id, coleccion } = req.params;
@@ -108,5 +154,6 @@ const mostrarImagen = async(req = request, res = response) => {
 module.exports = {
     cargarArchivo,
     actualizarArchivo,
-    mostrarImagen
+    mostrarImagen,
+    actualizarArchivoCloudinary
 }
